@@ -1,5 +1,12 @@
 {
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "concat-stream": "^2.0.0",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "log4js": "^6.3.0",
+    "mysql": "^2.18.1",
+    "toml": "^3.0.0"
   }
 }
