@@ -1,5 +1,4 @@
-<!--
- * @Copyright:
+/* @Copyright:
  *
  * Copyright (c) 2021 ZhangGuangzhou
  * learningMachine is licensed under Mulan PubL v1.
@@ -12,23 +11,23 @@
  * See the Mulan PubL v1 for more details.
  *
  * @Author: ZhangGuangzhou
- * @Date: 2021-02-13
- * @LastEditTime: 2021-02-13
+ * @Date: 2021-02-17
+ * @LastEditTime: 2021-02-17
  * @Github: https://github.com/cyhfvg/learningMachine
- * @Description: 主页
- *
--->
+ * @Description: 学科路由
+ */
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>主页</title>
-  </head>
-  <body>
-    <h1>主页</h1>
-    <a class="btn" href="/views/pointUploadPage">上传知识点</a><br />
-    <a class="btn" href="/views/classManagerPage">管理学科</a><br />
-  </body>
-</html>
+const express = require("express");
+const router = express.Router();
+const parserUtils = require("../utils/parserUtils");
+
+router.post("/class", parserUtils.jsonParser, function (req, res) {
+  let { classId, className } = req.body;
+  console.log(classId);
+  console.log(className);
+  //* 检查后插入数据库
+  let resData = { meta: true };
+  res.send(resData);
+});
+
+module.exports = router;

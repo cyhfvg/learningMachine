@@ -40,6 +40,7 @@ async function startServer() {
        * 获取全部配置
        */
       global.config = toml.parse(data);
+      global.config.global.path = __dirname;
 
       /**
        * 设置参数
@@ -55,10 +56,9 @@ async function startServer() {
        * 开启服务器
        */
       app.listen(global.config.global.port, function () {
-        global.logger.log("项目启动完毕……初始化……");
+        global.logger.debug("项目启动完毕……初始化……");
         init();
-        global.logger.log("初始化完毕……加油!!!");
-        init();
+        global.logger.debug("初始化完毕……加油!!!");
       });
     })
   );
@@ -70,8 +70,7 @@ startServer();
  * 数据初始化
  */
 function init() {
-  console.log("初始化");
-  global.logger.log("初始化数据");
+  global.logger.debug("初始化数据");
 }
 
 /**
@@ -109,5 +108,14 @@ function setExpress() {
   app.use(parser.jsonParser);
   app.use(parser.cookieParser);
 
+  /**
+   * 配置 express 路由
+   */
   app.use("/", require(path.join(__dirname, "routers", "index")));
+  app.use("/views", require(path.join(__dirname, "routers", "views")));
+  app.use("/upload", require(path.join(__dirname, "routers", "upload")));
+  app.use(
+    "/classManager",
+    require(path.join(__dirname, "routers", "classManager"))
+  );
 }
