@@ -1,0 +1,89 @@
+<!--
+ * @Copyright:
+ *
+ * Copyright (c) 2021 ZhangGuangzhou
+ * learningMachine is licensed under Mulan PubL v1.
+ * You can use this software according to the terms and conditions of the Mulan PubL v1.
+ * You may obtain a copy of Mulan PubL v1 at:
+ *             http://license.coscl.org.cn/MulanPubL-1.0
+ * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+ * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+ * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+ * See the Mulan PubL v1 for more details.
+ *
+ * @Author: ZhangGuangzhou
+ * @Date: 2021-02-17
+ * @LastEditTime: 2021-02-17
+ * @Github: https://github.com/cyhfvg/learningMachine
+ * @Description: 管理 class 页面
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>管理学科页面</title>
+    <%- include('template/bootstrap.ejs') %>
+  </head>
+  <body>
+    <div id="app">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>创建学科</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>学科编号</th>
+            <th><input type="text" v-model="classId" /></th>
+          </tr>
+          <tr>
+            <th>学科名称</th>
+            <th><input type="text" v-model="className" /></th>
+          </tr>
+          <tr>
+            <!-- 提交按钮 -->
+            <th>跳转按钮</th>
+            <th><input type="button" value="上传" @click="submit()" /></th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+  <%- include('template/vueandaxios.ejs') %>
+  <script type="text/javascript">
+    const vm = new Vue({
+      el: "#app",
+      data() {
+        return {
+          classId: "",
+          className: "",
+        };
+      },
+      methods: {
+        submit: function () {
+          let me = this;
+          let url = "/classManager/class";
+          let config = {
+            headers: { "Content-Type": "application/json" },
+          };
+          let params = {
+            classId: me.classId,
+            className: me.className,
+          };
+          axios.post(url, params, config).then((response) => {
+            // 上传成功则使文件输入框清空
+            let data = response.data.meta;
+            if (data === true) {
+              me.unitId = "";
+            }
+          });
+        },
+      },
+      computed: {},
+    });
+  </script>
+</html>
