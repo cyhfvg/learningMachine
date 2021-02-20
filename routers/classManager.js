@@ -12,7 +12,7 @@
  *
  * @Author: ZhangGuangzhou
  * @Date: 2021-02-17
- * @LastEditTime: 2021-02-17
+ * @LastEditTime: 2021-02-18
  * @Github: https://github.com/cyhfvg/learningMachine
  * @Description: 学科路由
  */
@@ -22,12 +22,56 @@ const router = express.Router();
 const parserUtils = require("../utils/parserUtils");
 
 router.post("/class", parserUtils.jsonParser, function (req, res) {
-  let { classId, className } = req.body;
-  console.log(classId);
-  console.log(className);
-  //* 检查后插入数据库
-  let resData = { meta: true };
-  res.send(resData);
+  let className = req.body.className;
+  let resData = { meta: false };
+
+  if (className === undefined) {
+    resData.meta = false;
+    res.send(resData);
+    return;
+  }
+
+  /**
+   * 检查数据库中是否已经存在此学科，不存在则插入
+   */
+  global.pool.getConnection(function (err, connection) {
+    // Todo: sql补全，查询学科是否已存在
+    let sql =
+      "SELECT subjectId FROM subjects WHERE subjectName='" + className + "';";
+    connection.query(sql, (error, results, fields) => {
+      if (error) {
+        global.logger.error("查询学科是否存在失败.....");
+        global.logger.error(error);
+        resData.meta = false;
+      } else {
+        global.logger.info("查询学科是否存在成功......");
+        global.logger.info("查询结果长度: " + results.length);
+        if (results.length > 0) {
+          resData.meta = false;
+        } else {
+          /**
+           * 未存在此学科，插入
+           */
+          let sql =
+            "INSERT INTO subjects (subjectName) VALUES ('" + className + "');";
+          global.pool.getConnection(function (err, connection) {
+            connection.query(sql, (error, results, fields) => {
+              if (error) {
+                global.logger.error("添加学科失败.....");
+                global.logger.error(error);
+              } else {
+                global.logger.info("添加学科成功......");
+                resData.meta = true;
+                res.send(resData);
+              }
+            });
+            connection.release();
+          });
+        }
+      }
+    });
+    connection.release();
+  });
 });
 
 module.exports = router;
