@@ -11,36 +11,24 @@
  * See the Mulan PubL v1 for more details.
  *
  * @Author: ZhangGuangzhou
- * @Date: 2021-02-16
- * @LastEditTime: 2021-02-16
+ * @Date: 2021-02-20
+ * @LastEditTime: 2021-02-20
  * @Github: https://github.com/cyhfvg/learningMachine
- * @Description: 页面路由转发
+ * @Description: 知识点路由
  */
 
-let express = require("express");
-let parser = require("../utils/parserUtils");
+const express = require("express");
 
 let router = express.Router();
 
 /**
- * 知识点上传
+ * 获取每天的任务单词 (一次获取全部)
  */
-router.get("/pointUploadPage", parser.urlencoded, (req, res) => {
-  res.render("pointUpload.ejs");
-});
-
-/**
- * 学科管理页面
- */
-router.get("/classManagerPage", parser.urlencoded, (req, res) => {
-  res.render("subjectManagerPage.ejs");
-});
-
-/**
- * 每日任务页面
- */
-router.get("/everydayTask", parser.urlencoded, (req, res) => {
-  res.render("everydayTaskPage.ejs");
+router.post("/points", (req, res) => {
+  let resData = {
+    meta: global.everydayPoint.point,
+  };
+  res.send(resData);
 });
 
 module.exports = router;
