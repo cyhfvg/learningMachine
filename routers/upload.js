@@ -27,10 +27,10 @@ const xlsx = require("../utils/xlsx");
 let router = express.Router();
 
 /**
- * 每单元单词excel文件上传
+ * 每知识点 excel 文件上传
  */
 router.post("/pointFileUpload", myMulter.single("file"), (req, res) => {
-  let { bookId, unitId } = req.body;
+  let { classId, unitId } = req.body;
   let zeroDate = dateUtil.getZeroDate();
   let file = req.file;
 

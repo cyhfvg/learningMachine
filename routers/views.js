@@ -33,7 +33,7 @@ router.get("/pointUploadPage", parser.urlencoded, (req, res) => {
  * 学科管理页面
  */
 router.get("/classManagerPage", parser.urlencoded, (req, res) => {
-  res.render("classManagerPage.ejs");
+  res.render("subjectManagerPage.ejs");
 });
 
 module.exports = router;
