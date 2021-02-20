@@ -37,17 +37,13 @@
         </thead>
         <tbody>
           <tr>
-            <th>学科编号</th>
-            <th><input type="text" v-model="classId" /></th>
-          </tr>
-          <tr>
             <th>学科名称</th>
             <th><input type="text" v-model="className" /></th>
           </tr>
           <tr>
             <!-- 提交按钮 -->
             <th>跳转按钮</th>
-            <th><input type="button" value="上传" @click="submit()" /></th>
+            <th><input type="button" value="添加学科" @click="submit()" /></th>
           </tr>
         </tbody>
       </table>
@@ -59,7 +55,6 @@
       el: "#app",
       data() {
         return {
-          classId: "",
           className: "",
         };
       },
@@ -71,16 +66,22 @@
             headers: { "Content-Type": "application/json" },
           };
           let params = {
-            classId: me.classId,
             className: me.className,
           };
           axios.post(url, params, config).then((response) => {
             // 上传成功则使文件输入框清空
             let data = response.data.meta;
+            console.dir(response.data);
             if (data === true) {
-              me.unitId = "";
+              me.className = "";
             }
           });
+        },
+      },
+      watch: {
+        className: function (newVal, oldVal) {
+          let me = this;
+          me.className = newVal.trim();
         },
       },
       computed: {},
