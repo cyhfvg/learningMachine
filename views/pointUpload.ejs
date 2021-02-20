@@ -28,36 +28,70 @@
   </head>
   <body>
     <div id="app">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>上传单词excel文件(*.xlsx)</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>书籍编号</th>
-            <th><input type="text" v-model="bookId" /></th>
-          </tr>
-          <tr>
-            <th>单元编号(书籍内部编号)</th>
-            <th><input type="text" v-model="unitId" /></th>
-          </tr>
-          <tr>
-            <th>选择文件(一次只会上传一个文件)</th>
-            <th>
-              <!-- 一次只允许上传一个文件 -->
-              <input type="file" id="files" name="tonngoExcel" multiple />
-            </th>
-          </tr>
-          <tr>
-            <!-- 提交按钮 -->
-            <th>跳转按钮</th>
-            <th><input type="button" value="上传" @click="submit()" /></th>
-          </tr>
-        </tbody>
-      </table>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>1.先根据学科名称查询学科编号</th>
+                <th>2.对应学科编号的知识点文件(*.xlsx)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>输入学科名称</th>
+                <th>
+                  <input type="text" v-model="subjectName" />
+                  <input
+                    type="button"
+                    value="查询"
+                    @click="querySubjectIdByName()"
+                  />
+                </th>
+              </tr>
+              <tr>
+                <th></th>
+                <th></th>
+              </tr>
+              <tr>
+                <th>学科编号</th>
+                <th><input type="text" v-model="subjectId" /></th>
+              </tr>
+              <tr>
+                <th>选择文件(一次只会上传一个文件)</th>
+                <th>
+                  <!-- 一次只允许上传一个文件 -->
+                  <input type="file" id="files" name="pointExcel" multiple />
+                </th>
+              </tr>
+              <tr>
+                <!-- 提交按钮 -->
+                <th>跳转按钮</th>
+                <th><input type="button" value="上传" @click="submit()" /></th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col"></div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col"></div>
+        <div class="col">
+          <table v-show="subjects.length > 0" class="table">
+            <tr>
+              <th>学科编号</th>
+              <th>学科名称</th>
+            </tr>
+            <tr v-for="(subject, index) in subjects">
+              <th>{{ subject.subjectId }}</th>
+              <th>{{ subject.subjectName }}</th>
+            </tr>
+          </table>
+        </div>
+        <div class="col"></div>
+      </div>
     </div>
   </body>
   <%- include('template/vueandaxios.ejs') %>
@@ -66,11 +100,15 @@
       el: "#app",
       data() {
         return {
-          bookId: "",
-          unitId: "",
+          subjectId: "",
+          subjectName: "",
+          subjects: [],
         };
       },
       methods: {
+        /**
+         * 提交知识点文件
+         */
         submit: function () {
           let me = this;
           let files = document.getElementById("files").files;
@@ -83,19 +121,42 @@
           };
           let param = new FormData();
           param.append("file", files[0]);
-          param.append("bookId", me.bookId);
-          param.append("unitId", me.unitId);
+          param.append("subjectId", me.subjectId);
           axios.post(url, param, config).then((response) => {
             // 上传成功则使文件输入框清空
             let data = response.data.meta;
             if (data === true) {
               files.value = "";
-              me.unitId = "";
+              me.subjectId = "";
+            }
+          });
+        },
+        querySubjectIdByName: function () {
+          let me = this;
+          let url = "/subjectManager/subject";
+          let config = {};
+          let params = {
+            params: {
+              subjectName: me.subjectName,
+            },
+          };
+          axios.get(url, params, config).then((response) => {
+            console.dir(response.data);
+            let isQuerySuccess = response.data.meta;
+            if (isQuerySuccess === true) {
+              console.dir(response.data.subjects);
+              me.subjects = response.data.subjects;
             }
           });
         },
       },
       computed: {},
+      watch: {
+        subjectName: function (newVal, oldVal) {
+          let me = this;
+          me.subjectName = newVal.trim();
+        },
+      },
     });
   </script>
 </html>

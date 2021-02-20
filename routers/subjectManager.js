@@ -18,9 +18,51 @@
  */
 
 const express = require("express");
+const { fields } = require("../utils/multer");
 const router = express.Router();
 const parserUtils = require("../utils/parserUtils");
 
+router.get("/subject", parserUtils.urlencoded, function (req, res) {
+  let subjectName = req.query.subjectName;
+  let resData = {
+    meta: false,
+    subjects: [],
+  };
+
+  global.pool.getConnection(function (err, connection) {
+    if (err) {
+      global.logger.error("获取mysql连接失败......");
+      global.logger.error(err);
+      resData.meta = false;
+      res.send(resData);
+    } else {
+      let sql =
+        "SELECT * FROM subjects WHERE subjectName LIKE '%" +
+        subjectName +
+        "%';";
+      connection.query(sql, (error, results, fields) => {
+        if (error) {
+          global.logger.error("根据学科名称查询学科编号失败......");
+          global.logger.error(error);
+          resData.meta = false;
+          res.send(resData);
+        } else {
+          global.logger.debug("根据学科名称查询学科编号成功......");
+          // Todo: remove
+          console.dir(results);
+          resData.meta = true;
+          resData.subjects = results;
+          res.send(resData);
+        }
+      });
+      connection.release();
+    }
+  });
+});
+
+/**
+ * 添加学科
+ */
 router.post("/subject", parserUtils.jsonParser, function (req, res) {
   let subjectName = req.body.subjectName;
   let resData = { meta: false };
