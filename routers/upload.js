@@ -21,6 +21,7 @@ const dateUtil = require("../utils/dateUtil");
 const express = require("express");
 const myMulter = require("../utils/multer");
 const parser = require("../utils/parserUtils");
+const stageUtil = require("../utils/stageUtil");
 const transaction = require("../utils/mysql/transaction");
 const xlsx = require("../utils/xlsx");
 
@@ -30,57 +31,53 @@ let router = express.Router();
  * 每知识点 excel 文件上传
  */
 router.post("/pointFileUpload", myMulter.single("file"), (req, res) => {
-  let { classId, unitId } = req.body;
-  let zeroDate = dateUtil.getZeroDate();
+  let subjectId = req.body.subjectId;
+  console.log(subjectId);
   let file = req.file;
 
   let localFile = file.path;
 
-  let excelTonngo = xlsx.getExcelData(localFile);
+  let excelPoints = xlsx.getExcelData(localFile);
   let tms_tanngo_id;
-
-  global.logger.debug("tms_tanngo_id: " + tms_tanngo_id);
-
   // 获取 插入时需要的主键id
   global.pool.getConnection(function (err, connection) {
     connection.query(
-      "select nextVal from tms_tanngo_idgenerator",
+      "select subjectId from subjects;",
       (error, results, fields) => {
         if (error) {
           // Todo: mysql 连接成功；更换对应mysql表
-          global.logger.error("查询tms_tanngo_idgenerator出错" + error);
+          global.logger.error("查询学科id失败" + error);
           return;
         } else {
-          let temp = results[0].nextVal;
-          tms_tanngo_id = results[0].nextVal;
+          if (results.length === 0) {
+            let resData = {
+              meta: false,
+            };
+            res.send(resData);
+            return;
+          }
           // 执行事务插入
           transaction.execTrans(() => {
             let sql =
-              "insert into tms_tanngo(id, tanngo, akusennto, kannji, type, imi, date,bookid,unitid,dannkai)" +
-              " values(?,?,?,?,?,?,?,?,?,?);" +
-              "update tms_tanngo_idgenerator set nextVal = ?;";
+              "INSERT INTO points (hintA, hintB, hintC, studyDate, stage)" +
+              " values(?,?,?,?,?);" +
+              "INSERT INTO subject_points SELECT '" +
+              subjectId +
+              "' as subjectId, LAST_INSERT_ID();";
             let sqlparamsEntities = [];
-            for (let index = 0; index < excelTonngo.length; index++) {
-              const element = excelTonngo[index];
-              let params = [];
-              let id = tms_tanngo_id;
-              // 主键游标指向下一个
-              tms_tanngo_id += 1;
-              if (element.akusennto === "") {
-                element.akusennto = -1;
+            for (let index = 0; index < excelPoints.length; index++) {
+              const element = excelPoints[index];
+
+              if (element.hintC === "") {
+                element.hintC = "无内容";
               }
+              let params = [];
               [...params] = [
-                id,
-                element.tonngo,
-                element.akusennto,
-                element.kannji,
-                element.type,
-                element.imi,
-                zeroDate,
-                bookId,
-                unitId,
-                "zero",
-                tms_tanngo_id,
+                element.hintA,
+                element.hintB,
+                element.hintC,
+                dateUtil.getZeroDate(),
+                stageUtil.getFirstStage(),
               ];
               // console.log(JSON.parse(JSON.stringify(params)));
               // 添加入 sqlparamsEntities中
@@ -88,14 +85,14 @@ router.post("/pointFileUpload", myMulter.single("file"), (req, res) => {
             }
             return sqlparamsEntities;
           });
+          let resData = {
+            meta: true,
+          };
+          res.send(resData);
         }
       }
     );
     connection.release();
-    let resData = {
-      meta: true,
-    };
-    res.send(resData);
   });
 });
 
