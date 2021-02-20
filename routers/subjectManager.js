@@ -12,7 +12,7 @@
  *
  * @Author: ZhangGuangzhou
  * @Date: 2021-02-17
- * @LastEditTime: 2021-02-18
+ * @LastEditTime: 2021-02-20
  * @Github: https://github.com/cyhfvg/learningMachine
  * @Description: 学科路由
  */
@@ -21,11 +21,11 @@ const express = require("express");
 const router = express.Router();
 const parserUtils = require("../utils/parserUtils");
 
-router.post("/class", parserUtils.jsonParser, function (req, res) {
-  let className = req.body.className;
+router.post("/subject", parserUtils.jsonParser, function (req, res) {
+  let subjectName = req.body.subjectName;
   let resData = { meta: false };
 
-  if (className === undefined) {
+  if (subjectName === undefined) {
     resData.meta = false;
     res.send(resData);
     return;
@@ -37,7 +37,7 @@ router.post("/class", parserUtils.jsonParser, function (req, res) {
   global.pool.getConnection(function (err, connection) {
     // Todo: sql补全，查询学科是否已存在
     let sql =
-      "SELECT subjectId FROM subjects WHERE subjectName='" + className + "';";
+      "SELECT subjectId FROM subjects WHERE subjectName='" + subjectName + "';";
     connection.query(sql, (error, results, fields) => {
       if (error) {
         global.logger.error("查询学科是否存在失败.....");
@@ -53,7 +53,9 @@ router.post("/class", parserUtils.jsonParser, function (req, res) {
            * 未存在此学科，插入
            */
           let sql =
-            "INSERT INTO subjects (subjectName) VALUES ('" + className + "');";
+            "INSERT INTO subjects (subjectName) VALUES ('" +
+            subjectName +
+            "');";
           global.pool.getConnection(function (err, connection) {
             connection.query(sql, (error, results, fields) => {
               if (error) {

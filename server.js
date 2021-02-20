@@ -115,7 +115,7 @@ function setExpress() {
   app.use("/views", require(path.join(__dirname, "routers", "views")));
   app.use("/upload", require(path.join(__dirname, "routers", "upload")));
   app.use(
-    "/classManager",
-    require(path.join(__dirname, "routers", "classManager"))
+    "/subjectManager",
+    require(path.join(__dirname, "routers", "subjectManager"))
   );
 }
