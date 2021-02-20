@@ -79,6 +79,23 @@ function init() {
 function setParameters() {
   global.logger = log4js.logger;
   global.pool = require("./utils/mysql/pool");
+  global.everydayPoint = {
+    semaphore: 1,
+    point: [
+      { hintA: "hintA1", hintB: "hintB1", hintC: "hintC1" },
+      { hintA: "hintA2", hintB: "hintB2", hintC: "hintC2" },
+      { hintA: "hintA3", hintB: "hintB3", hintC: "hintC3" },
+      { hintA: "hintA4", hintB: "hintB4", hintC: "hintC4" },
+      { hintA: "hintA5", hintB: "hintB5", hintC: "hintC5" },
+      { hintA: "hintA6", hintB: "hintB6", hintC: "hintC6" },
+      { hintA: "hintA7", hintB: "hintB7", hintC: "hintC7" },
+      { hintA: "hintA8", hintB: "hintB8", hintC: "hintC8" },
+      { hintA: "hintA9", hintB: "hintB9", hintC: "hintC9" },
+      { hintA: "hintA10", hintB: "hintB10", hintC: "hintC10" },
+      { hintA: "hintA11", hintB: "hintB11", hintC: "hintC11" },
+    ],
+  };
+  //  (hint.\d+)
 }
 
 /**
@@ -111,11 +128,12 @@ function setExpress() {
   /**
    * 配置 express 路由
    */
-  app.use("/", require(path.join(__dirname, "routers", "index")));
-  app.use("/views", require(path.join(__dirname, "routers", "views")));
-  app.use("/upload", require(path.join(__dirname, "routers", "upload")));
   app.use(
     "/subjectManager",
     require(path.join(__dirname, "routers", "subjectManager"))
   );
+  app.use("/", require(path.join(__dirname, "routers", "index")));
+  app.use("/point", require(path.join(__dirname, "routers", "point")));
+  app.use("/upload", require(path.join(__dirname, "routers", "upload")));
+  app.use("/views", require(path.join(__dirname, "routers", "views")));
 }

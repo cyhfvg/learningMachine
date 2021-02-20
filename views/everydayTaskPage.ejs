@@ -1,0 +1,223 @@
+<!--
+ * @Copyright:
+ *
+ * Copyright (c) 2021 ZhangGuangzhou
+ * learningMachine is licensed under Mulan PubL v1.
+ * You can use this software according to the terms and conditions of the Mulan PubL v1.
+ * You may obtain a copy of Mulan PubL v1 at:
+ *             http://license.coscl.org.cn/MulanPubL-1.0
+ * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+ * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+ * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+ * See the Mulan PubL v1 for more details.
+ *
+ * @Author: ZhangGuangzhou
+ * @Date: 2021-02-20
+ * @LastEditTime: 2021-02-20
+ * @Github: https://github.com/cyhfvg/learningMachine
+ * @Description: 每日任务
+-->
+
+<!DOCTYPE html>
+<html lang="zh-Hans" data-darkmode="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>每日任务</title>
+    <%- include('template/bootstrap.ejs') %>
+    <style>
+      #point-body > div > div > div {
+        min-height: 40px;
+        height: auto;
+        line-height: 40px;
+        color: brown;
+      }
+    </style>
+    <!-- Heti 样式表引入 -->
+    <%- include('template/heti.ejs') %>
+  </head>
+  <body>
+    <main data-bg-grid="">
+      <div id="app">
+        <!-- 样式选择区 -->
+        <div class="row">
+          <aside class="col-12 panel">
+            <ul class="panel-list panel-list--gray">
+              <li>
+                <input
+                  type="radio"
+                  class="J_fontStack"
+                  value="heti--classic"
+                  v-model="heti_Font"
+                  id="font-classic"
+                  checked
+                /><label for="font-classic">传</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  class="J_fontStack"
+                  value="heti--sans"
+                  v-model="heti_Font"
+                  id="font-sans"
+                /><label for="font-sans">黑</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  class="J_fontStack"
+                  value="heti--serif"
+                  v-model="heti_Font"
+                  id="font-serif"
+                /><label for="font-serif">宋</label>
+              </li>
+            </ul>
+            <ul class="panel-list panel-list--gray">
+              <li>
+                <input
+                  type="radio"
+                  class="J_radioGrid"
+                  value=""
+                  v-model="heti_Grid"
+                  id="grid-disable"
+                  checked
+                /><label for="grid-disable">关</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  class="J_radioGrid"
+                  value="grid-24"
+                  v-model="heti_Grid"
+                  id="grid-24"
+                /><label for="grid-24">大</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  class="J_radioGrid"
+                  value="grid-12"
+                  v-model="heti_Grid"
+                  id="grid-12"
+                /><label for="grid-12">小</label>
+              </li>
+            </ul>
+            <ul class="panel-list panel-list--gray panel-list--icon">
+              <li>
+                <input
+                  type="radio"
+                  class="J_darkMode"
+                  value="auto"
+                  v-model="heti_Darkmode"
+                  id="darkmode-auto"
+                  checked
+                /><label for="darkmode-auto">🌗</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  class="J_darkMode"
+                  value="light"
+                  v-model="heti_Darkmode"
+                  id="darkmode-light"
+                /><label for="darkmode-light">🌞</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  class="J_darkMode"
+                  value="dark"
+                  v-model="heti_Darkmode"
+                  id="darkmode-dark"
+                /><label for="darkmode-dark">🌙</label>
+              </li>
+            </ul>
+          </aside>
+        </div>
+        <!-- 每日任务主体区 -->
+        <!-- 主体头部 -->
+        <div class="row">
+          <div style="height: 40px"></div>
+        </div>
+        <div
+          class="w-100"
+          style="height: 5px; background-color: floralwhite"
+        ></div>
+        <!-- Note:知识点显示区 -->
+        <article class="article heti" v-bind:class="heti_Font">
+          <div id="point-body">
+            <div v-for="(item, index) in pagePoint">
+              <div class="row" @click="changeSinglePoint(index)">
+                <div class="col-2"></div>
+                <!-- 左边 hintA -->
+                <div
+                  v-if="item.hintA"
+                  class="col-4"
+                  style="
+                    border-right-style: dashed;
+                    border-right-width: 2px;
+                    border-right-color: blanchedalmond;
+                  "
+                >
+                  {{ item.hintA }}
+                </div>
+                <!-- 右边 hintB -->
+                <div v-show="!isReviewMode" class="col-5">{{ item.hintB }}</div>
+              </div>
+              <!-- 每行知识点之间添加一条分界线 -->
+              <div style="height: 2px; background-color: aliceblue"></div>
+            </div>
+            <div>
+              <div class="row" v-for="i in (listLength - pagePoint.length)">
+                <div class="rol"></div>
+                <div class="rol"></div>
+                <div class="rol"></div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <!-- 知识点与下方功能区之间添加一条分界线 -->
+        <div
+          class="w-100"
+          style="height: 5px; background-color: floralwhite"
+        ></div>
+        <!-- Note:底部按钮功能区 -->
+        <div class="row">
+          <div style="height: 10px"></div>
+        </div>
+        <div class="row">
+          <div class="col-2">
+            <button type="button" class="btn btn-default">
+              {{ curPage }}/{{ pageNum }}
+            </button>
+          </div>
+          <div class="col-6">
+            <button type="button" class="btn btn-info" @click="changePage(-1)">
+              Pre
+            </button>
+            <button type="button" class="btn btn-info" @click="changePage(1)">
+              Next
+            </button>
+            <button
+              type="button"
+              class="btn btn-info"
+              @click="changeReviewMode()"
+            >
+              R
+            </button>
+          </div>
+          <!-- Todo: hintC 显示 -->
+          <div v-if="singlePoint" class="col-4">
+            <button type="button" class="btn btn-default">
+              {{ singlePoint.akusennto }}/
+              {{ singlePoint.type }}
+            </button>
+          </div>
+          <div v-else class="col-4"></div>
+        </div>
+      </div>
+    </main>
+  </body>
+
+  <%- include('template/everydayTaskPage.ejs.vue.ejs') %>
+</html>
