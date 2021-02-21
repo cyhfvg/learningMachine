@@ -1,5 +1,4 @@
-<!--
- * @Copyright:
+/* @Copyright:
  *
  * Copyright (c) 2021 ZhangGuangzhou
  * learningMachine is licensed under Mulan PubL v1.
@@ -12,18 +11,12 @@
  * See the Mulan PubL v1 for more details.
  *
  * @Author: ZhangGuangzhou
- * @Date: 2021-02-08
+ * @Date: 2021-02-20
+ * @LastEditTime: 2021-02-20
  * @Github: https://github.com/cyhfvg/learningMachine
- * @Description: 开发日志
--->
+ * @Description: 艾宾浩斯阶段工具 测试类
+ */
 
-### 2021/02/20 **_v0.2.0_**
+const stageUtil = require("../utils/stageUtil");
 
-- 增加
-  - 知识点上传
-  - 每日任务(获取、存储、打散、显示)
-
-### 2021/02/08 **_v0.1.0_**
-
-- 增加
-  - 项目初始化
+console.log(stageUtil.getFirstStage());

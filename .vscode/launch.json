@@ -10,6 +10,7 @@
       "name": "LM",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/server.js"
+      // "program": "${workspaceFolder}/test/shuffleTest.js"
     }
   ]
 }
