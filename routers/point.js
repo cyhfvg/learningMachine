@@ -1,5 +1,4 @@
-<!--
- * @Copyright:
+/* @Copyright:
  *
  * Copyright (c) 2021 ZhangGuangzhou
  * learningMachine is licensed under Mulan PubL v1.
@@ -12,18 +11,24 @@
  * See the Mulan PubL v1 for more details.
  *
  * @Author: ZhangGuangzhou
- * @Date: 2021-02-08
+ * @Date: 2021-02-20
+ * @LastEditTime: 2021-02-20
  * @Github: https://github.com/cyhfvg/learningMachine
- * @Description: 开发日志
--->
+ * @Description: 知识点路由
+ */
 
-### 2021/02/20 **_v0.2.0_**
+const express = require("express");
 
-- 增加
-  - 知识点上传
-  - 每日任务(获取、存储、打散、显示)
+let router = express.Router();
 
-### 2021/02/08 **_v0.1.0_**
+/**
+ * 获取每天的任务单词 (一次获取全部)
+ */
+router.post("/points", (req, res) => {
+  let resData = {
+    meta: global.everydayPoint.point,
+  };
+  res.send(resData);
+});
 
-- 增加
-  - 项目初始化
+module.exports = router;
