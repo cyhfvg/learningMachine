@@ -18,12 +18,14 @@
  */
 
 const concat = require("concat-stream");
+const everydayTask = require("./utils/task/everydayTask");
 const express = require("express");
 const fs = require("fs");
 const log4js = require("./utils/log4js");
-const path = require("path");
-const toml = require("toml");
 const parser = require("./utils/parserUtils");
+const path = require("path");
+const scheduleManager = require("./utils/scheduleManager");
+const toml = require("toml");
 
 /**
  * 定义express app
@@ -40,6 +42,7 @@ async function startServer() {
        * 获取全部配置
        */
       global.config = toml.parse(data);
+      global.config.global.path = __dirname;
 
       /**
        * 设置参数
@@ -55,11 +58,15 @@ async function startServer() {
        * 开启服务器
        */
       app.listen(global.config.global.port, function () {
-        global.logger.log("项目启动完毕……初始化……");
+        global.logger.debug("项目启动完毕……初始化……");
         init();
-        global.logger.log("初始化完毕……加油!!!");
-        init();
+        global.logger.debug("初始化完毕……加油!!!");
       });
+
+      /**
+       * 开启其它服务
+       */
+      startOtherService();
     })
   );
 }
@@ -70,8 +77,12 @@ startServer();
  * 数据初始化
  */
 function init() {
-  console.log("初始化");
-  global.logger.log("初始化数据");
+  global.logger.debug("初始化: 从数据库中获取今日背诵任务......");
+  everydayTask.pullTodayPoint();
+  setTimeout(() => {
+    global.logger.debug("初始化: 打乱每日任务......");
+    everydayTask.shufflePoints();
+  }, 10000);
 }
 
 /**
@@ -80,6 +91,22 @@ function init() {
 function setParameters() {
   global.logger = log4js.logger;
   global.pool = require("./utils/mysql/pool");
+  global.everydayPoint = {
+    semaphore: 1,
+    point: [
+      { hintA: "hintA1", hintB: "hintB1", hintC: "hintC1" },
+      { hintA: "hintA2", hintB: "hintB2", hintC: "hintC2" },
+      { hintA: "hintA3", hintB: "hintB3", hintC: "hintC3" },
+      { hintA: "hintA4", hintB: "hintB4", hintC: "hintC4" },
+      { hintA: "hintA5", hintB: "hintB5", hintC: "hintC5" },
+      { hintA: "hintA6", hintB: "hintB6", hintC: "hintC6" },
+      { hintA: "hintA7", hintB: "hintB7", hintC: "hintC7" },
+      { hintA: "hintA8", hintB: "hintB8", hintC: "hintC8" },
+      { hintA: "hintA9", hintB: "hintB9", hintC: "hintC9" },
+      { hintA: "hintA10", hintB: "hintB10", hintC: "hintC10" },
+      { hintA: "hintA11", hintB: "hintB11", hintC: "hintC11" },
+    ],
+  };
 }
 
 /**
@@ -109,5 +136,25 @@ function setExpress() {
   app.use(parser.jsonParser);
   app.use(parser.cookieParser);
 
+  /**
+   * 配置 express 路由
+   */
+  app.use(
+    "/subjectManager",
+    require(path.join(__dirname, "routers", "subjectManager"))
+  );
   app.use("/", require(path.join(__dirname, "routers", "index")));
+  app.use("/point", require(path.join(__dirname, "routers", "point")));
+  app.use("/upload", require(path.join(__dirname, "routers", "upload")));
+  app.use("/views", require(path.join(__dirname, "routers", "views")));
+}
+
+/**
+ * 开启其它服务
+ */
+function startOtherService() {
+  /**
+   * 启动定时任务
+   */
+  scheduleManager.startTasks();
 }
