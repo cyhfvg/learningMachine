@@ -1,0 +1,173 @@
+<!--
+ * @Copyright:
+ *
+ * Copyright (c) 2021 ZhangGuangzhou
+ * learningMachine is licensed under Mulan PubL v1.
+ * You can use this software according to the terms and conditions of the Mulan PubL v1.
+ * You may obtain a copy of Mulan PubL v1 at:
+ *             http://license.coscl.org.cn/MulanPubL-1.0
+ * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+ * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+ * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+ * See the Mulan PubL v1 for more details.
+ *
+ * @Author: ZhangGuangzhou
+ * @Date: 2021-02-20
+ * @LastEditTime: 2021-02-20
+ * @Github: https://github.com/cyhfvg/learningMachine
+ * @Description: 每日任务对应 js 脚本
+-->
+<script src="https://cyhfvg-public.oss-cn-shanghai.aliyuncs.com/js/heti/0.8.1/heti-addon.js"></script>
+<%- include('vueandaxios.ejs') %>
+<script type="text/javascript">
+  /**
+   * Heti 文字增强
+   */
+  const heti = new Heti();
+  heti.autoSpacing();
+
+  const vm = new Vue({
+    el: "#app",
+    data() {
+      return {
+        curPage: 1,
+        heti_Darkmode: "auto",
+        heti_Font: "heti--classic",
+        heti_Grid: "",
+        isHintCShow: false,
+        isReviewMode: false,
+        listLength: 10,
+        point: [],
+        singlePointId: 0,
+      };
+    },
+    methods: {
+      /**
+       * 获取下一页的知识点
+       */
+      getNextList: function () {
+        let me = this;
+        if (me.curPage + 1 > me.listNum) {
+          return;
+        }
+        me.curPage++;
+      },
+      /**
+       * 获取上一页的知识点
+       */
+      getPreList: function () {
+        let me = this;
+        if (me.curPage - 1 < 1) {
+          return;
+        }
+        me.curPage--;
+      },
+      /**
+       * 通过更改当前页码，用计算属性给出对应页码的知识点List
+       */
+      changePage: function (len) {
+        let me = this;
+        let newCurPage = me.curPage + len;
+        if (newCurPage > me.pageNum) {
+          me.curPage = newCurPage % me.pageNum;
+        } else if (newCurPage < 1) {
+          me.curPage = me.pageNum + (newCurPage % me.pageNum);
+        } else {
+          me.curPage = newCurPage;
+        }
+      },
+      /**
+       * 通过选中的知识点位序，用计算属性给出对应位序的知识点
+       */
+      changeSinglePoint: function (index) {
+        let me = this;
+        me.singlePointId = index;
+      },
+      /**
+       * 改变hintC显示位
+       */
+      changeHintCShowMode: function () {
+        let me = this;
+        changeHintCShowModeByParam(!me.isHintCShow);
+      },
+      /**
+       * 直接更改hintC显示位
+       */
+      changeHintCShowModeByParam: function (flag) {
+        let me = this;
+        me.isHintCShow = flag;
+      },
+      /**
+       * 改变背诵模式，复习模式时 不显示右边栏
+       */
+      changeReviewMode: function () {
+        let me = this;
+        me.isReviewMode = !me.isReviewMode;
+      },
+    },
+    mounted() {
+      let me = this;
+      let url = "/point/points";
+      let params = {};
+      let config = {};
+      axios
+        .post(url, params, config)
+        .then((response) => {
+          // Todo: 存入LocalStorage中
+          let data = response.data.meta;
+          me.point = data;
+        })
+        .catch((err) => {
+          console.error("getEveryDayWord failed");
+        });
+    },
+    computed: {
+      /**
+       * 计算属性 计算当前页 展示的 (10) 个知识点
+       */
+      pagePoint: function () {
+        let me = this;
+        let listNum = me.pageNum;
+        if (me.curPage === listNum) {
+          return me.point.slice((me.curPage - 1) * me.listLength);
+        } else {
+          let stop = me.curPage * me.listLength;
+          let start = stop - me.listLength;
+          return me.point.slice(start, stop);
+        }
+      },
+      /**
+       * 知识点总数量
+       */
+      pointNum: function () {
+        let me = this;
+        return me.point.length;
+      },
+      /**
+       * 计算共有多少页
+       */
+      pageNum: function () {
+        let me = this;
+        let listNum = me.point.length / 10;
+        return me.point.length % 10 == 0 ? listNum : Math.ceil(listNum);
+      },
+      /**
+       * 获取页面内指定index的知识点
+       */
+      singlePoint: function () {
+        let me = this;
+        return me.pagePoint[me.singlePointId];
+      },
+    },
+    watch: {
+      heti_Darkmode: function (newVal, oldVal) {
+        let html = document.getElementsByTagName("html")[0];
+        html.setAttribute("data-darkmode", newVal);
+      },
+      heti_Grid: function (newVal, oldVal) {
+        let main = document.getElementsByTagName("main")[0];
+        main.setAttribute("data-bg-grid", newVal);
+      },
+    },
+  });
+</script>

@@ -23,7 +23,7 @@ let parser = require("../utils/parserUtils");
 let router = express.Router();
 
 /**
- * 单词上传
+ * 知识点上传
  */
 router.get("/pointUploadPage", parser.urlencoded, (req, res) => {
   res.render("pointUpload.ejs");
@@ -34,6 +34,13 @@ router.get("/pointUploadPage", parser.urlencoded, (req, res) => {
  */
 router.get("/classManagerPage", parser.urlencoded, (req, res) => {
   res.render("subjectManagerPage.ejs");
+});
+
+/**
+ * 每日任务页面
+ */
+router.get("/everydayTask", parser.urlencoded, (req, res) => {
+  res.render("everydayTaskPage.ejs");
 });
 
 module.exports = router;
