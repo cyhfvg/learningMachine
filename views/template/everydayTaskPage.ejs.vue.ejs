@@ -34,10 +34,11 @@
         heti_Darkmode: "auto",
         heti_Font: "heti--classic",
         heti_Grid: "",
-        listLength: 10,
-        singlePointId: 0,
-        point: [],
+        isHintCShow: false,
         isReviewMode: false,
+        listLength: 10,
+        point: [],
+        singlePointId: 0,
       };
     },
     methods: {
@@ -81,6 +82,20 @@
       changeSinglePoint: function (index) {
         let me = this;
         me.singlePointId = index;
+      },
+      /**
+       * 改变hintC显示位
+       */
+      changeHintCShowMode: function () {
+        let me = this;
+        changeHintCShowModeByParam(!me.isHintCShow);
+      },
+      /**
+       * 直接更改hintC显示位
+       */
+      changeHintCShowModeByParam: function (flag) {
+        let me = this;
+        me.isHintCShow = flag;
       },
       /**
        * 改变背诵模式，复习模式时 不显示右边栏
