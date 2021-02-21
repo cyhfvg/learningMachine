@@ -32,6 +32,11 @@
         line-height: 40px;
         color: brown;
       }
+      .hint-C {
+        /* width: 90%; */
+        min-height: 50px;
+        background-color: aliceblue;
+      }
     </style>
     <!-- Heti 样式表引入 -->
     <%- include('template/heti.ejs') %>
@@ -134,7 +139,6 @@
             </ul>
           </aside>
         </div>
-        <!-- 每日任务主体区 -->
         <!-- 主体头部 -->
         <div class="row">
           <div style="height: 40px"></div>
@@ -143,11 +147,27 @@
           class="w-100"
           style="height: 5px; background-color: floralwhite"
         ></div>
+        <!-- 每日任务主体区 -->
+        <div class="row">
+          <div class="col-2"></div>
+          <!-- Todo: hintC 显示 -->
+          <div
+            @click="changeHintCShowModeByParam(false)"
+            class="col-8 hint-C"
+            v-if="singlePoint && isHintCShow"
+          >
+            {{ singlePoint.hintC }}
+          </div>
+          <div class="col-2"></div>
+        </div>
         <!-- Note:知识点显示区 -->
         <article class="article heti" v-bind:class="heti_Font">
           <div id="point-body">
             <div v-for="(item, index) in pagePoint">
-              <div class="row" @click="changeSinglePoint(index)">
+              <div
+                class="row"
+                @click="changeSinglePoint(index),changeHintCShowModeByParam(true)"
+              >
                 <div class="col-2"></div>
                 <!-- 左边 hintA -->
                 <div
@@ -206,14 +226,7 @@
               R
             </button>
           </div>
-          <!-- Todo: hintC 显示 -->
-          <div v-if="singlePoint" class="col-4">
-            <button type="button" class="btn btn-default">
-              {{ singlePoint.akusennto }}/
-              {{ singlePoint.type }}
-            </button>
-          </div>
-          <div v-else class="col-4"></div>
+          <div class="col-4"></div>
         </div>
       </div>
     </main>
