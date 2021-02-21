@@ -18,12 +18,14 @@
  */
 
 const concat = require("concat-stream");
+const everydayTask = require("./utils/task/everydayTask");
 const express = require("express");
 const fs = require("fs");
 const log4js = require("./utils/log4js");
-const path = require("path");
-const toml = require("toml");
 const parser = require("./utils/parserUtils");
+const path = require("path");
+const scheduleManager = require("./utils/scheduleManager");
+const toml = require("toml");
 
 /**
  * 定义express app
@@ -60,6 +62,11 @@ async function startServer() {
         init();
         global.logger.debug("初始化完毕……加油!!!");
       });
+
+      /**
+       * 开启其它服务
+       */
+      startOtherService();
     })
   );
 }
@@ -70,7 +77,12 @@ startServer();
  * 数据初始化
  */
 function init() {
-  global.logger.debug("初始化数据");
+  global.logger.debug("初始化: 从数据库中获取今日背诵任务......");
+  everydayTask.pullTodayPoint();
+  setTimeout(() => {
+    global.logger.debug("初始化: 打乱每日任务......");
+    everydayTask.shufflePoints();
+  }, 10000);
 }
 
 /**
@@ -95,7 +107,6 @@ function setParameters() {
       { hintA: "hintA11", hintB: "hintB11", hintC: "hintC11" },
     ],
   };
-  //  (hint.\d+)
 }
 
 /**
@@ -136,4 +147,14 @@ function setExpress() {
   app.use("/point", require(path.join(__dirname, "routers", "point")));
   app.use("/upload", require(path.join(__dirname, "routers", "upload")));
   app.use("/views", require(path.join(__dirname, "routers", "views")));
+}
+
+/**
+ * 开启其它服务
+ */
+function startOtherService() {
+  /**
+   * 启动定时任务
+   */
+  scheduleManager.startTasks();
 }
