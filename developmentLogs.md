@@ -17,6 +17,12 @@
  * @Description: 开发日志
 -->
 
+### 2021/02/28 **_v0.4.0_**
+
+- 增加
+  - 从 [nihonngonobennkyo](https://github.com/cyhfvg/nihonngonobennkyo)中获取日语单词的方法
+  - 日语单词 3000+ 存储数据库
+
 ### 2021/02/20 **_v0.3.0_**
 
 - 增加
