@@ -20,7 +20,7 @@
 [global]
   listLength= 120
   path= "__dirname"
-  port= 1813
+  port= 4090
 
 [mysql]
   connectionLimit= 10
