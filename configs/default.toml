@@ -18,7 +18,7 @@
 
 # 全局配置项
 [global]
-  listLength= 120
+  listLength= 75 
   path= "__dirname"
   port= 4090
 
