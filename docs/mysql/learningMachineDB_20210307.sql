@@ -4,14 +4,15 @@
  Source Server         : learningMachineDB
  Source Server Type    : MySQL
  Source Server Version : 100144
- Source Host           : 47.107.54.79:3306
+ Source Host           : 
  Source Schema         : learningMachineDB
 
  Target Server Type    : MySQL
  Target Server Version : 100144
  File Encoding         : 65001
+ 包含学科：            : 日语单词; vim使用技巧
 
- Date: 28/02/2021 23:18:35
+ Date: 07/03/2021 22:40:49
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +32,7 @@ CREATE TABLE `points`  (
   PRIMARY KEY (`pointId`) USING BTREE,
   INDEX `studyDateIndex`(`studyDate`) USING BTREE COMMENT '日期查询优化',
   INDEX `pointIdIndex`(`pointId`) USING BTREE COMMENT '知识点主键查询优化'
-) ENGINE = InnoDB AUTO_INCREMENT = 19967 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '知识点表\r\n\r\n包括\r\nid	知识点编号\r\nclass_id	学科编号\r\nhint_a	主要内容，提示A，必须\r\nhint_b	次要内容，提示B，必须\r\nhint_c	补充内容，提示C，非必须\r\ndate	背诵日期\r\nstage	背诵阶段' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 20011 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '知识点表\r\n\r\n包括\r\nid	知识点编号\r\nclass_id	学科编号\r\nhint_a	主要内容，提示A，必须\r\nhint_b	次要内容，提示B，必须\r\nhint_c	补充内容，提示C，非必须\r\ndate	背诵日期\r\nstage	背诵阶段' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of points
@@ -3461,7 +3462,7 @@ INSERT INTO `points` VALUES (19869, 'ap', '范围文本对象，当前段落及�
 INSERT INTO `points` VALUES (19870, 'd{motion}与aw,as,ap配合更好', '删除时会删除的干净', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19871, 'c{motion}与iw,is,ip配合更好', '修改时不需要去除单词前后的空格', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19872, 'm{a-zA-Z}', '使用选定的字母标记当前光标所在位置。小写字母在每个缓冲区可见，大写字母全局可见。', '无内容', '1111-11-11', 'zero');
-INSERT INTO `points` VALUES (19873, '{mark}', '单引号，跳转至之前设置的标记所在行首。书签。', '`{mark}反折号跳转至之前标记所在行、列', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19873, '\'{mark}', '单引号，跳转至之前设置的标记所在行首。书签。', '`{mark}反折号跳转至之前标记所在行、列', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19874, '``', '跳转到当前文件中上次跳转动作之前的位置', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19875, '`.', '上次修改的地方', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19876, '`^', '上次插入的地方（上次退出插入模式的地方）', '无内容', '1111-11-11', 'zero');
@@ -3480,14 +3481,14 @@ INSERT INTO `points` VALUES (19888, '{或}', '跳转到上一段或下一段的�
 INSERT INTO `points` VALUES (19889, 'H或M或L', '跳转到屏幕最上方或正中间或最下方', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19890, 'gf', '跳转到光标下的文件名', '需要提前设置可能用到的文件扩展名:set suffixesadd+=.rb此命令添加了ruby文件的扩展名', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19891, '<C-]>', '跳转到光标下的关键词的定义之处', 'gd', '1111-11-11', 'zero');
-INSERT INTO `points` VALUES (19892, '{mark}或`{mark}', '跳转到一个位置标记', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19892, '\'{mark}或`{mark}', '跳转到一个位置标记', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19893, '<C-o>', '跳转到跳转列表中上一个跳转位置', '每个单独的窗口都拥有一份自己的跳转列表，在分割窗口或多标签页，此命令会始终在当前活动窗口的跳转列表内进行跳转', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19894, '<C-i>', '跳转到跳转列表中下一个跳转位置', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19895, 'g;', '反向遍历改变列表', 'u<C-r>的作用类似，但不会更改文本', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19896, 'g,', '为正向遍历改变列表', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19897, 'gi', '会使用`^标记恢复光标位置，并切换回插入模式', '用于浏览后快速在上次编辑位置继续编辑', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19898, '_寄存器', '为黑洞寄存器', '真正删除，不会影响其它寄存器', '1111-11-11', 'zero');
-INSERT INTO `points` VALUES (19899, '\"寄存器', '无名寄存器，未显示指定寄存器时，默认使用的寄存器', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19899, '\"寄存器', '无名寄存器，未显式指定寄存器时，默认使用的寄存器', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19900, '0寄存器', '数字0，复制专用寄存器', '使用yank命令时，不仅会复制入无名寄存器，复制专用寄存器也会有内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19901, '有名寄存器', 'a-z寄存器', '小写字母覆盖有名寄存器，大写字母会在寄存器的原有内容之后添加', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19902, '+寄存器', '+寄存器等效为系统寄存器', '与外部程序沟通', '1111-11-11', 'zero');
@@ -3511,16 +3512,16 @@ INSERT INTO `points` VALUES (19919, '并行方式运行宏', ':\'<,\'>normal @q'
 INSERT INTO `points` VALUES (19920, 'q{REGISTER}', 'q加大写字母为向此宏中追加内容', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19921, '在一组文件中执行宏（并行）', '1.建立目标文件列表 :args *.rb 2.确保光标位于第一个文件 :first 3. 录制宏 4. 使用:edit! 放弃第一个缓冲区的修改 5. 在参数列表中对所有缓冲区执行宏 :argdo normal @q 6. 保存文件 :argdo write', '需要先行设置set nocompatible和filetype plugin indent on和set hidden和对应文件的自动缩进if has(\"autocmd\") autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab endif', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19922, '在一组文件中执行宏（串行）', '1.建立目标文件列表 :args *.rb 2.确保光标位于第一个文件 :first 3. 录制宏，并在宏的最后使用 :next 进入下一个缓冲区 4. 使用:edit! 放弃第一个缓冲区的修改 5. 在参数列表中对所有缓冲区执行宏 :argdo normal @q 6. 保存文件 :argdo write', '需要先行设置set nocompatible和filetype plugin indent on和set hidden和对应文件的自动缩进if has(\"autocmd\") autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab endif', '1111-11-11', 'zero');
-INSERT INTO `points` VALUES (19923, '用迭代求值的方式给列表编号', '1. 先设置一个迭代变量 :let i=1 2.录制宏 qq 3. 在需要插入值的地方 插入模式中<C-r>=i<CR><Esc>即可插入i的值 4. 更改i的值 :let I += 1 更改5. 录制结束 q 结束 6. 使用 并行方式执行宏 :\'<,\'>normal @q', '也可使用复制粘贴再使用<C-a>达到同样的效果', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19923, '用迭代求值的方式给列表编号', '1. 先设置一个迭代变量 :let i=1 2.录制宏 qq 3. 在需要插入值的地方 插入模式中<C-r>=i<CR><Esc>即可插入i的值 4. 更改i的值 :let i += 1 更改5. 录制结束 q 结束 6. 使用 并行方式执行宏 :\'<,\'>normal @q', '也可使用复制粘贴再使用<C-a>达到同样的效果', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19924, 'vU', '将字母替换为大写字母', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19925, '可以将宏从对应寄存器中粘贴到缓冲区中编辑', ':put a', '无内容', '1111-11-11', 'zero');
-INSERT INTO `points` VALUES (19926, '在将宏从缓冲区复制回寄存器中时，使用\"{register}g_', 'g_将光标跳转至行尾，但不包含回车符，回车符也许会影响结果，应摒弃它', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19926, '在将宏从缓冲区复制回寄存器中时，使用\"{register}yg_', 'g_将光标跳转至行尾，但不包含回车符，回车符也许会影响结果，应摒弃它', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19927, '可以使用substitute命令对寄存器中的内容进行编辑', ':let @q=substitute(@q, \'pattern\', \'string\', \'flag\')', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19928, '设置查找模式大小写敏感性', ':set ignorecase', '会影响Vim关键字自动补全行为', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19929, '使用\\c或\\C开启此次查找是否忽略大小写', '\\c忽略大小写；\\C开启强制区分大小写', '可以在模式的任意位置使用', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19930, 'Vim的正则表达式语法风格接近POSIX', '', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19931, 'Vim模式中只需为开括号转义，闭括号不用转义', '圆括号开闭括号都要转义', '无内容', '1111-11-11', 'zero');
-INSERT INTO `points` VALUES (19932, '模式中使用\\v 的very magic模式', '此模式为除去_和大小写字母和0-9的数字外所有字母都有特殊含义,#没有特殊含义', '用在开始位置；如/\\v#([0-9a-fA-F]{6}|[0-9a-fA-F]{3}) 使得Vim的正则引擎更像Perl、Python或Ruby', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19932, '模式中使用\\v 的very magic模式', '此模式为除去_和大小写字母和0-9的数字外所有字母的特殊含义,#没有特殊含义', '用在开始位置；如/\\v#([0-9a-fA-F]{6}|[0-9a-fA-F]{3}) 使得Vim的正则引擎更像Perl、Python或Ruby', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19933, '模式中使用\\V 则为启用字符原义的very nomagic模式', '此模式中可以去除在.*?等大多数字符上的特殊含义', '只有反斜杠有特殊含义；如 /\\Va.k.a', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19934, '`', '', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19935, '模式中圆括号捕获子匹配', '可使用\\1 \\2 \\3 ……\\9对其引用， \\0 引用整个匹配', '无内容', '1111-11-11', 'zero');
@@ -3553,8 +3554,52 @@ INSERT INTO `points` VALUES (19961, 'q/', '用于调出命令行窗口，此窗�
 INSERT INTO `points` VALUES (19962, '正则实践单引号替换为双引号', '查找模式为 /\\v\'(([^\']|\'\\w)+)\' 替换时 :%s//\"\\1\"/g', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19963, '统计当前模式匹配个数', ':%s///gn 中n标志位抑制替换动作，单纯统计次数，模式域为空，使用上次的模式，不替换，所以替换域也为空', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19964, '统计当前模式匹配个数', ':vimgrep //g % 匹配结果被放入quickfix列表， %标志意为当前文件', '使用:cnext :cprev用于正向和反向遍历quickfix列表', '1111-11-11', 'zero');
-INSERT INTO `points` VALUES (19965, 'substitute命令的标志位', '标志位g使得全局范围内执行；标志位c可以确认或拒绝第一处修改；标志位n会抑制正常的替换行为；标志位e用来屏蔽查找不到的提示；标志位&用于指示重用上一次substitute命令使用过的标志位', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19965, 'substitute命令的标志位', '标志位g使得全局范围内执行；标志位c可以确认或拒绝每一处修改；标志位n会抑制正常的替换行为；标志位e用来屏蔽查找不到的提示；标志位&用于指示重用上一次substitute命令使用过的标志位', '无内容', '1111-11-11', 'zero');
 INSERT INTO `points` VALUES (19966, '替换域中的特殊字符', '\\r为插入一个换行符；\\t为插入一个制表符；\\\\为插入一个反斜杠；\\1为插入第一个子匹配；\\2为插入第二个匹配；\\0为插入匹配模式的所有内容；&为插入匹配模式的所有内容；~为使用上一次调用:substitute命令时使用的{string}；\\={Vim script} 执行{Vim Script}表达式，并将返回的结果作为替换{string}', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19967, '<C-r>{register}可以将寄存器中的内容插入命令行', '而若寄存器中的内容含有像&或~具有替换域特殊含义的字符，这样操作不合理，在替换域中使用\\=@{register}的方式引用寄存器的内容', '例如:%s//\\=0/g', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19968, '编程方式输入查找模式', ':let @/=\'Hello World\' 表示编程方式输入查找模式，等同于直接执行查找命令 /Hello World<CR>,但是编程方式不会留下查找记录', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19969, '设置寄存器内容', ':let @a=\'Hello World\'', '等同于，高亮选中\'Hello World\'并用\"ay将文本存入寄存器中', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19970, 'g&', '在整个文件中重复上一条substitute命令', '是 :%&& 的快捷方式，其中，%代表全文件范围，第一个&是:&这个Ex命令的组成部分表示重复上次的substitute命令，第二个&指重用上次substitute命令的标志位', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19971, ':&&', '在当前行重复上一条substitute命令，相同的标志位', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19972, '使用子匹配重排文件的字段', ':%s//\\3,\\2,\\1', '/\\v^([^,]*),([^,]*),([^,]*)$', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19973, 'vim正则匹配中 * 代表它前面的字符 0或多次匹配', '', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19974, 'vim正则匹配中 ? 代表它前面的字符 0或1次匹配', '', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19975, 'submatch(0)可以得到匹配到的内容', '使用:%s//\\=submatch(0)-1/g', '此例是将匹配到的数字减一', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19976, '使用vim脚本的字典数据结构来实现交换两个或更多的单词的功能', '实现 查找模式为 /\\v(<man>|<dog>) 替换命令为 :%s//\\={\"dog\":\"man\",\"man\":\"dog\"}[submatch(1)]/g', '其中创建了一次性的字典，并使用了submatch()函数得到捕获的文本', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19977, 'Abolish.vim', '超级substitute命令', '可以阅读源码', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19978, ':copen', '打开quickfix窗口', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19979, '使用:vimgrep在工程范围内查找', ':vimgrep // **/*.txt', '使用vimgrep以上一次的查找模式 在当前目录下所有后缀为txt的文件中查找', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19980, ':cfdo', '对quickfix列表中的每个文件做操作', '需要提前设置 :set hidden', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19981, '在将需要执行操作的文件放入quickfix列表后', ':cfdo %s//Hello World/gc', '在每个文件中使用上次的查找模式替换为Hello World并每次寻问是否替换', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19982, ':cfdo update', '此命令将对quickfix列表中所有有改动的文件进行保存', '可以跟在其它命令后面 :cfdo %s//Hello World/gc | update', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19983, '使用global命令可以在指定模式的所有匹配行上运行Ex命令', ':[range] global[!] /{pattern}/ [cmd]', '缺省状态就是以整个文件为作用范围；{pattern}与查找历史相关联，留空的话使用上一个查找模式；[cmd]为除global这外的任何Ex命令，缺省为 :print命令；简写为 :g', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19984, ':vglobal', '此命令为 :global 的反转命令，在没有匹配到的行上执行', '简写为 :v', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19985, ':g//d', ':global//delete', '使用上次的查找模式，将匹配行删除', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19986, 'qaq', '可以快速清空a寄存器', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19987, ':g/TODO/yank A', '此命令为 将所有TODO行，复制到a寄存器中，因为可能有多个匹配，如果使用 小a 的话每次都覆盖了，不是想要的结果；因此使用 大A 向寄存器中追加，所以要求先清空a寄存器，qaq', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19988, 'global命令的广义公式', ':g/{pattern}/[range][cmd]  究极广义公式 为 :g/{start}/ .,{finish} [cmd] 其中 {start}/后有空格，{finish}后有空格，意为 在:g/{start}/匹配行上执行命令， 命令为 匹配行到结束行上运行 [cmd] 因此第一个空格可有可无，第二个空格应该需要；还可以使用偏移量 如 .+1,/{finish}/-1 [cmd]', '因为vim的Ex命令默认可以在前面有一个范围，所以可以给 [cmd]一个 [range]', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19989, '可以使用:g/{pattern}的匹配作为参考点，动态设置[cmd]的[range]', '其中 . 点符号在:global的上下文中代表匹配行', ':g/{pattern}/.,/{otherpattern}/ sort 其中{pattern}/后的.点符号代表当前行，然后逗号分隔，然后是/{otherpattern}/查找模式的结束行，然后是空格用来分隔命令，然后是Ex命令； ', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19990, ':global 命令中使用:slient命令可以屏蔽提示信息', '如 :g/{start}/sil .+1,/{finist}/-1 [cmd]', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19991, 'ctags工具，建立索引，在代码目录下，使用 ctags *.rb 对所有ruby文件进行索引，生成tags纯文本文件', '', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19992, ':set tags?', '可以查看tags缺省配置，即vim到哪里查找标签文件', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19993, '!ctags -R', '使用ctags外部程序重新生成索引', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19994, ':autocmd BufWritePost * call system(\"ctags -R\")', '此命令为，在缓冲区得以保存时，触发事件，自动调用ctags -R命令，更新索引', 'vim的自动命令', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19995, '通过版本控制工具的回调机制自动执行ctags', 'git等版本控制工具可以根据事件建立回调机制', 'Effortless Ctags with Git', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19996, '<C-]>', '去到光标下的关键词的定义处', 'gd', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19997, '<C-t>', '使用<C-]>时，vim会为访问过的标签维护一个历史列表，使用<C-t>实现，后退按钮功能', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19998, 'g<C-]>', '当前关键词中有一处匹配时，与<C-]>相同，有多处匹配时，会从标签匹配列表中挑出可选项供我们选择', '按下候选项数字键，并按下回车，就可以跳转到指定的位置', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (19999, ':tselect', '调出ctags的候选标签列表从而进行回溯', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (20000, ':tnext', '直接跳转至下一处匹配 :tprev :tfirst :tlast同理', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (20001, ':tag {keyword}', '以Ex命令的方式跳转到关键词的定义处', '同在关键词上 <C-]>', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (20002, ':tjump {keyword}', '以Ex命令的方式跳转到关键词的定义处，有选择列表', '同在关键词上 g<C-]>', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (20003, 'Ex命令形式 tags跳转可以使用正则匹配的方式', ':tag /{pattern} 或 :tjump /{pattern}', ':tag 空格斜杠{pattern} 例如 :tjump /hello$ 匹配所有以hello结尾的关键词', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (20004, ':make', 'vim提供make命令，也可设置使用外部的编译器等；使用  :make! 命令可以编译后，只更新quickfix列表，不跳转光标 ', 'vim会将产生的错误信息中，文件名、行号、错误信息等提取出来，放入quickfix列表中', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (20005, ':cnext', '可以跳转到quickfix列表下一处出错位置处', '可以附加数字用于步进， 如 :5cnext 跳过5项的下一个项目', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (20006, '浏览Quickfix列表', ':next 跳转到下一项。 :cprev 跳转到上一项。 :cfirst 跳转到第一项。 :clast 跳转到最后一项。:cnfile 跳转到下一个文件的第一项。:cpfile跳转到上一个文件的最后一项。:cc N跳转到第N项。:copen 打开quickfix窗口。:cclose 关闭quickfix窗口。:cdo {cmd} 在quickfix列表中的每一行上执行{cmd}。:cfdo {cmd}在quickfix列表中的每个文件上执行一次{cmd}', '命令均以 :c 开头', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (20007, '位置列表', '与quickfix列表类似，但是quickfix列表全局唯一，在任何窗口、缓冲区使用:copen打开的都是同一个quickfix窗口。 位置列表是针对窗口的概念。', '与quickfix列表的命令相似，但是使用 :l 小L前缀', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (20008, '回溯以前的Quickfix列表', ':colder命令和 :cnewer 命令。用以回到quickfix列表的上一次的版本或恢复。总共保存最近的10个列表。', '可以附加次数', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (20009, '调用外部编译器', '安装好编译器后，可以手动设置使vim调用外部编译器。:setlocal makeprg=NODE_DISABLE_COLORS=1\\ NODELINT\\ % 其中，makeprg用于指定编译器程序，反斜杠用于转义空格，不显示颜色vim更加容易解析出错信息，最后的%为当前文件的所在路径，则意为终端下运行 nodelint /path/to/javascriptfile.js。然后再使用:setglobal errorformat设置vim如何解析错误信息，如:setlocal efm=%A%f\\,\\ lin', '无内容', '1111-11-11', 'zero');
+INSERT INTO `points` VALUES (20010, '简单方式调用外部编译器', '使用:compiler命令；例如 :compiler nodelint', '是vim自带的插件', '1111-11-11', 'zero');
 
 -- ----------------------------
 -- Table structure for subject_points
@@ -7091,6 +7136,50 @@ INSERT INTO `subject_points` VALUES (12, 19963);
 INSERT INTO `subject_points` VALUES (12, 19964);
 INSERT INTO `subject_points` VALUES (12, 19965);
 INSERT INTO `subject_points` VALUES (12, 19966);
+INSERT INTO `subject_points` VALUES (12, 19967);
+INSERT INTO `subject_points` VALUES (12, 19968);
+INSERT INTO `subject_points` VALUES (12, 19969);
+INSERT INTO `subject_points` VALUES (12, 19970);
+INSERT INTO `subject_points` VALUES (12, 19971);
+INSERT INTO `subject_points` VALUES (12, 19972);
+INSERT INTO `subject_points` VALUES (12, 19973);
+INSERT INTO `subject_points` VALUES (12, 19974);
+INSERT INTO `subject_points` VALUES (12, 19975);
+INSERT INTO `subject_points` VALUES (12, 19976);
+INSERT INTO `subject_points` VALUES (12, 19977);
+INSERT INTO `subject_points` VALUES (12, 19978);
+INSERT INTO `subject_points` VALUES (12, 19979);
+INSERT INTO `subject_points` VALUES (12, 19980);
+INSERT INTO `subject_points` VALUES (12, 19981);
+INSERT INTO `subject_points` VALUES (12, 19982);
+INSERT INTO `subject_points` VALUES (12, 19983);
+INSERT INTO `subject_points` VALUES (12, 19984);
+INSERT INTO `subject_points` VALUES (12, 19985);
+INSERT INTO `subject_points` VALUES (12, 19986);
+INSERT INTO `subject_points` VALUES (12, 19987);
+INSERT INTO `subject_points` VALUES (12, 19988);
+INSERT INTO `subject_points` VALUES (12, 19989);
+INSERT INTO `subject_points` VALUES (12, 19990);
+INSERT INTO `subject_points` VALUES (12, 19991);
+INSERT INTO `subject_points` VALUES (12, 19992);
+INSERT INTO `subject_points` VALUES (12, 19993);
+INSERT INTO `subject_points` VALUES (12, 19994);
+INSERT INTO `subject_points` VALUES (12, 19995);
+INSERT INTO `subject_points` VALUES (12, 19996);
+INSERT INTO `subject_points` VALUES (12, 19997);
+INSERT INTO `subject_points` VALUES (12, 19998);
+INSERT INTO `subject_points` VALUES (12, 19999);
+INSERT INTO `subject_points` VALUES (12, 20000);
+INSERT INTO `subject_points` VALUES (12, 20001);
+INSERT INTO `subject_points` VALUES (12, 20002);
+INSERT INTO `subject_points` VALUES (12, 20003);
+INSERT INTO `subject_points` VALUES (12, 20004);
+INSERT INTO `subject_points` VALUES (12, 20005);
+INSERT INTO `subject_points` VALUES (12, 20006);
+INSERT INTO `subject_points` VALUES (12, 20007);
+INSERT INTO `subject_points` VALUES (12, 20008);
+INSERT INTO `subject_points` VALUES (12, 20009);
+INSERT INTO `subject_points` VALUES (12, 20010);
 
 -- ----------------------------
 -- Table structure for subjects
