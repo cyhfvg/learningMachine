@@ -25,10 +25,10 @@
 [mysql]
   connectionLimit= 10
   database= "learningMachineDB"
-  host= "47.107.54.79"
+  host= "ip.add.re.ss"
   # 开启多条查询开关
   multipleStatements= true
-  password= "learningMachineDBPassword"
+  password= "password"
   port= "3306"
   timezone= "08:00"
   user= "learningMachineDBUser"
